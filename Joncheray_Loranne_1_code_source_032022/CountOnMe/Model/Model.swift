@@ -41,7 +41,7 @@ class Calculator {
         return elements.count >= 3
     }
 
-    // Cheks can add operator
+    // Checks can add operator
     private var canAddOperator: Bool {
         return elements.last != Operand.plus.rawValue
         && elements.last != Operand.minus.rawValue
@@ -82,10 +82,11 @@ class Calculator {
 
     // func for calcul if negative numbers in first index
     private func negativeNumbers(numbersSelected: [String]) throws -> [String] {
+
         var text = numbersSelected
         let index = 0
 
-        // Condition for function "negativeNumbers" is minimum 4 elements and
+        // Condition for function "negativeNumbers" is minimum 4 elements
         if text.count >= 4,
            let minusOperand = Operand(rawValue: text[index]),
            minusOperand == .minus,
@@ -122,9 +123,10 @@ class Calculator {
 
     // Check priority operand
     private func priorityCalcul(numbersSelected: [String]) throws -> [String] {
+
         var text = numbersSelected
 
-        // Condition si calcul contain multiply or divide
+        // Condition if calcul contain multiply or divide
         while text.contains(Operand.multiply.rawValue) || text.contains(Operand.divide.rawValue) {
             if let indx = text.firstIndex(where: { $0 == Operand.multiply.rawValue ||  $0 == Operand.divide.rawValue}) {
 
@@ -192,7 +194,8 @@ class Calculator {
                 }
             } else { // If negative numbers in first index
                 operationsToReduce =  try negativeNumbers(numbersSelected: elements)
-                result = Double(operationsToReduce[index])!
+                guard let resultNegativNumbers = Double(operationsToReduce[index]) else { return "error" }
+                result = resultNegativNumbers
             }
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
